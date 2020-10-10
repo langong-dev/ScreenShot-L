@@ -27,12 +27,21 @@ private slots:
 
     void on_about_clicked();
 
+    void on_refresh_clicked();
+
+    //void on_delete_btn_clicked();
+
 private:
     Ui::MainWindow *ui;
+
+    void putimg(QPixmap img);
 
 public:
 
     QSystemTrayIcon *trayIcon;
+    QPixmap nowimage;
+    QString path;
+    QString statusHead;
 
 //Q_SIGNALS:
 

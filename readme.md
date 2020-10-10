@@ -14,8 +14,9 @@ A screen shot application with QT5.
   1. Download `LanGong-ScreenShot-L-*-Setup.exe` from [release page](https://github.com/langong-dev/ScreenShot-L/releases)
   2. Runs setup script
 - For Linux and MacOS users (You may install qt5 or `qt5-base` first)
-  1. Clone or download our repo
-  2. Runs `install.sh` script with `root` user : `bash ./install.sh`
+  1. Clone or download our repo: `git clone https://github.com/langong-dev/ScreenShot-L.git`
+  2. Go into repo: `cd ScreenShot-L`
+  3. Runs `install.sh` script with `root` user : `bash ./install.sh`
 
 ## Runs
 

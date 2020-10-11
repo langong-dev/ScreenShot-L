@@ -31,6 +31,11 @@ A screen shot application with QT5.
 - Windows: Double click shotcut on desktop 双击桌面快捷方式
 - Linux/MacOS: Find starter from menu OR run `screenshot-l`
 
+> ## Tips 提示
+> 
+> - If you are using x32 or x64 Windows OS and cannot running ScreenShot-L, you can download [`vc_redist-x64.exe`](https://github.com/langong-dev/vc/raw/main/vc_redist.x64.exe) or [`vc_redist-x86.exe`](https://github.com/langong-dev/vc/raw/main/vc_redist.x86.exe)
+> - 若使用基于 32 或 64 位的 Windows 用户无法运行 ScreenShot-L ，可以尝试运行安装本列表下面的文件 [`vc_redist-x64.exe`](https://github.com/langong-dev/vc/raw/main/vc_redist.x64.exe) 或 [`vc_redist-x86.exe`](https://github.com/langong-dev/vc/raw/main/vc_redist.x86.exe) 。
+
 ## Feedback
 
 Open a new issue!

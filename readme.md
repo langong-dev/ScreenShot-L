@@ -29,7 +29,7 @@ A screen shot application with QT5.
 ## Runs 运行
 
 - Windows: Double click shotcut on desktop 双击桌面快捷方式
-- Linux/MacOS: Find starter from menu OR run `screenshot-l`
+- Linux/MacOS: Find starter from menu OR run `screenshotl`
 
 > ## Tips 提示
 > 

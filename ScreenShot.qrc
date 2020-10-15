@@ -2,6 +2,7 @@
     <qresource prefix="/SystemTray">
         <file>icon.ico</file>
         <file>QtIcon.png</file>
+        <file>LanGongIconMode.PNG</file>
     </qresource>
     <qresource prefix="/icons"/>
 </RCC>

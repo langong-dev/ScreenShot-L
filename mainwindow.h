@@ -3,6 +3,7 @@
 
 #include <QMainWindow>
 #include <QSystemTrayIcon>
+#include <QMenu>
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -29,6 +30,11 @@ private slots:
 
     void on_refresh_clicked();
 
+    void on_activatedSysTrayIcon(QSystemTrayIcon::ActivationReason reason);
+
+    void slotActionExitApp();
+
+
     //void on_delete_btn_clicked();
 
 private:
@@ -36,12 +42,19 @@ private:
 
     void putimg(QPixmap img);
 
+    void closeEvent(QCloseEvent *event);
+
 public:
 
-    QSystemTrayIcon *trayIcon;
+    void startcap();
+
+public:
+
+    QSystemTrayIcon systemTrayIcon;
     QPixmap nowimage;
     QString path;
     QString statusHead;
+    QMenu menu;
 
 //Q_SIGNALS:
 

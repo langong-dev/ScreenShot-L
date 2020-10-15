@@ -12,6 +12,13 @@
 #include <QDebug>
 #include <QMessageBox>
 
+#include <QDesktopServices>
+#include <QCloseEvent>
+#include <QHideEvent>
+#include <QKeyEvent>
+#include <QShortcut>
+#include <Qt>
+
 
 
 MainWindow::MainWindow(QWidget *parent)
@@ -23,15 +30,89 @@ MainWindow::MainWindow(QWidget *parent)
     statusHead = " Status: ";
 
     this->ui->status->setText(statusHead+"Ready");
+
+//    QSystemTrayIcon systemTrayIcon;
+    systemTrayIcon.setIcon(QIcon::fromTheme("folder",QIcon(":/SystemTray/LanGongIconMode.PNG")));
+    systemTrayIcon.setToolTip("LanGong ScreenShot-L");
+
+//    QMenu menu;
+    QAction *menucapture = new QAction("Capture", &menu);
+//        menucapture->setShortcut(QKeySequence(Qt::ALT+Qt::Key_F1));
+    QAction *gethelp = new QAction("Help/About");
+    QAction *exitapp = new QAction("Quit");
+
+    menu.addAction(menucapture);
+    menu.addAction(gethelp);
+    menu.addSeparator();
+    menu.addAction(exitapp);
+
+    connect(menucapture, SIGNAL(triggered()), this, SLOT(on_start_clicked()));
+    connect(exitapp, SIGNAL(triggered()), this, SLOT(slotActionExitApp()));
+    connect(&systemTrayIcon, SIGNAL(activated(QSystemTrayIcon::ActivationReason)), this, SLOT(on_activatedSysTrayIcon(QSystemTrayIcon::ActivationReason)));
+    connect(gethelp, SIGNAL(triggered()), this, SLOT(on_about_clicked()));
+
+    systemTrayIcon.setContextMenu(&menu);
+    systemTrayIcon.showMessage("title", "message", QSystemTrayIcon::MessageIcon::Information, 3000);
+    systemTrayIcon.show();
+
+
+//    if(systemTrayIcon.isVisible())
+//        {
+//            this->hide();
+//            systemTrayIcon.showMessage("Tips", "The program is running behind!");
+//            event->ignore();
+//        }
+//    systemTrayIcon.setVisible(true);
 }
+
+void MainWindow::slotActionExitApp()
+{
+    systemTrayIcon.hide();
+    exit(0);
+}
+
+void MainWindow::on_activatedSysTrayIcon(QSystemTrayIcon::ActivationReason reason)
+{
+    switch (reason)
+    {
+        case QSystemTrayIcon::Trigger:
+            this->show();
+            break;
+        case QSystemTrayIcon::DoubleClick:
+            //双击托盘图标
+            //双击后显示主程序窗口
+            this->show();
+//            systemTrayIcon->hide();
+            break;
+        default:
+            break;
+    }
+
+}
+
+void MainWindow::closeEvent(QCloseEvent *event)
+{
+    if(systemTrayIcon.isVisible())
+    {
+        hide(); //隐藏窗口
+        event->ignore(); //忽略事件
+    }
+}
+//void MainWindow::hideEvent(QHideEvent *event)
+//{
+//    if(systemTrayIcon.isVisible())
+//    {
+//        hide(); //隐藏窗口
+//        event->ignore(); //忽略事件
+//    }
+//}
 
 MainWindow::~MainWindow()
 {
     delete ui;
 }
 
-void MainWindow::on_start_clicked()
-{
+void MainWindow::startcap(){
     this->ui->status->setText(statusHead+"Starting Capturer");
     this->hide();
     QTime _Timer = QTime::currentTime().addMSecs(750);
@@ -41,6 +122,11 @@ void MainWindow::on_start_clicked()
         connect(captureHelper, SIGNAL(signalCompleteCature(QPixmap)), this, SLOT(onCompleteCature(QPixmap)));
     captureHelper->show();
     this->show();
+}
+
+void MainWindow::on_start_clicked()
+{
+    startcap();
 }
 
 void MainWindow::onCompleteCature(QPixmap captureImage)

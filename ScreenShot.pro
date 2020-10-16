@@ -45,3 +45,6 @@ RC_ICON = icon.ico
 
 RESOURCES += \
     ScreenShot.qrc
+
+
+DESTDIR = $$absolute_path($${_PRO_FILE_PWD_}/bin/)

@@ -88,7 +88,6 @@ jobs:
         run: |
           # 创建文件夹
           New-Item -ItemType Directory ${env:archiveName}
-          dir D:\a\ScreenShot-L-test\ScreenShot-L-test
           # 拷贝exe
           Copy-Item bin\${env:targetName} ${env:archiveName}\
           # 拷贝依赖

@@ -26,43 +26,47 @@ MainWindow::MainWindow(QWidget *parent)
     , ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
-    //setWindowIcon();
-    statusHead = " Status: ";
 
+    /*Init Status-bar*/
+    statusHead = " Status: ";
     this->ui->status->setText(statusHead+"Ready");
 
-//    QSystemTrayIcon systemTrayIcon;
+    /*Init System tray*/
     systemTrayIcon.setIcon(QIcon::fromTheme("folder",QIcon(":/SystemTray/LanGongIconMode.PNG")));
     systemTrayIcon.setToolTip("LanGong ScreenShot-L");
 
-//    QMenu menu;
+    /*Init System tray actions*/
+    QAction *showwindow = new QAction("Show Window");
     QAction *menucapture = new QAction("Capture", &menu);
-//        menucapture->setShortcut(QKeySequence(Qt::ALT+Qt::Key_F1));
-    QAction *gethelp = new QAction("Help/About");
+    QAction *gethelp = new QAction("Help / About");
     QAction *exitapp = new QAction("Quit");
 
+    showwindow->setIcon(QIcon(":/SystemTray/LanGongIconMode.PNG"));
+
+    /*Init System tray menu*/
+    menu.addAction(showwindow);
     menu.addAction(menucapture);
     menu.addAction(gethelp);
     menu.addSeparator();
     menu.addAction(exitapp);
 
+    /*Connect System tray*/
+    connect(&systemTrayIcon, SIGNAL(activated(QSystemTrayIcon::ActivationReason)), this, SLOT(on_activatedSysTrayIcon(QSystemTrayIcon::ActivationReason)));
     connect(menucapture, SIGNAL(triggered()), this, SLOT(on_start_clicked()));
     connect(exitapp, SIGNAL(triggered()), this, SLOT(slotActionExitApp()));
-    connect(&systemTrayIcon, SIGNAL(activated(QSystemTrayIcon::ActivationReason)), this, SLOT(on_activatedSysTrayIcon(QSystemTrayIcon::ActivationReason)));
     connect(gethelp, SIGNAL(triggered()), this, SLOT(on_about_clicked()));
+    connect(showwindow, SIGNAL(triggered()), this, SLOT(slotShowwindow()));
 
+    /*Init System tray icon and title*/
     systemTrayIcon.setContextMenu(&menu);
     systemTrayIcon.showMessage("title", "message", QSystemTrayIcon::MessageIcon::Information, 3000);
     systemTrayIcon.show();
 
 
-//    if(systemTrayIcon.isVisible())
-//        {
-//            this->hide();
-//            systemTrayIcon.showMessage("Tips", "The program is running behind!");
-//            event->ignore();
-//        }
-//    systemTrayIcon.setVisible(true);
+    if(!systemTrayIcon.isVisible())
+    {
+        QMessageBox::information(NULL, "ScreenShot-L", "ScreenShot-L's system tray started error!");
+    }
 }
 
 void MainWindow::slotActionExitApp()
@@ -88,6 +92,10 @@ void MainWindow::on_activatedSysTrayIcon(QSystemTrayIcon::ActivationReason reaso
             break;
     }
 
+}
+
+void MainWindow::slotShowwindow(){
+    this->show();
 }
 
 void MainWindow::closeEvent(QCloseEvent *event)

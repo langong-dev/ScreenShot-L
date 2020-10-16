@@ -34,6 +34,8 @@ private slots:
 
     void slotActionExitApp();
 
+    void slotShowwindow();
+
 
     //void on_delete_btn_clicked();
 

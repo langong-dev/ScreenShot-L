@@ -2,6 +2,7 @@
 #define ABOUT_H
 
 #include <QDialog>
+#include <QCloseEvent>
 
 namespace Ui {
 class About;
@@ -14,6 +15,8 @@ class About : public QDialog
 public:
     explicit About(QWidget *parent = nullptr);
     ~About();
+
+    void closeEvent(QCloseEvent *event);
 
 private:
     Ui::About *ui;

@@ -12,3 +12,9 @@ About::~About()
 {
     delete ui;
 }
+
+void About::closeEvent(QCloseEvent *event)
+{
+    this->hide();
+    event->ignore();
+}

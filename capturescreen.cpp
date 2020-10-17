@@ -128,6 +128,7 @@ QRect CaptureScreen::getRect(const QPoint &beginPoint, const QPoint &endPoint)
 #include <QDebug>
 #include <QScreen>
 
+
 // 选中矩形8个拖拽点小矩形的宽高;
 #define STRETCH_RECT_WIDTH 6
 #define STRETCH_RECT_HEIGHT 6
@@ -181,10 +182,22 @@ void CaptureScreen::loadBackgroundPixmap()
 //    QScreen *temp = QGuiApplication::primaryScreen();
 //    m_loadPixmap = temp->grubWindow(0);
 
+    const QDesktopWidget* desktop = QApplication::desktop();
+    const QPoint pos = QCursor::pos();
+
+    QScreen* screen = QGuiApplication::screenAt(pos);
+    const QRect geo = screen->geometry();
+
+    const QPixmap screenshot = screen->grabWindow(desktop->winId(),
+        geo.left(),
+        geo.top(),
+        geo.width(),
+        geo.height());
+    m_loadPixmap = screenshot;
+
 //    QScreen * screen = QGuiApplication::primaryScreen();
 //    QRect g = screen->geometry();
 //    QPixmap pixmap = screen->grabWindow(0, g.x(), g.y(), g.width(), g.height());
-
 //    m_loadPixmap = pixmap;
     m_screenwidth = m_loadPixmap.width();
     m_screenheight = m_loadPixmap.height();

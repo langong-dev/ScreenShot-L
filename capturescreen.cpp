@@ -126,6 +126,7 @@ QRect CaptureScreen::getRect(const QPoint &beginPoint, const QPoint &endPoint)
 #include <QDesktopWidget>
 #include <QMouseEvent>
 #include <QDebug>
+#include <QScreen>
 
 // 选中矩形8个拖拽点小矩形的宽高;
 #define STRETCH_RECT_WIDTH 6
@@ -174,7 +175,15 @@ void CaptureScreen::initStretchRect()
 // 获取当前屏幕图片;
 void CaptureScreen::loadBackgroundPixmap()
 {
-    m_loadPixmap = QPixmap::grabWindow(QApplication::desktop()->winId()); //抓取当前屏幕的图片;
+    //m_loadPixmap = QPixmap::grabWindow(QApplication::desktop()->winId()); //抓取当前屏幕的图片;
+//    QScreen *temp = QGuiApplication::primaryScreen();
+//    m_loadPixmap = temp->grubWindow(0);
+
+    QScreen * screen = QGuiApplication::primaryScreen();
+    QRect g = screen->geometry();
+    QPixmap pixmap = screen->grabWindow(0, g.x(), g.y(), g.width(), g.height());
+
+    m_loadPixmap = pixmap;
     m_screenwidth = m_loadPixmap.width();
     m_screenheight = m_loadPixmap.height();
 }
@@ -382,6 +391,7 @@ void CaptureScreen::keyPressEvent(QKeyEvent *event)
         //parentWidget()->show();
 
         close();
+        this->hide();
     }
     // Eeter键完成截图;
     if (event->key() == Qt::Key_Return || event->key() == Qt::Key_Enter)
@@ -389,6 +399,7 @@ void CaptureScreen::keyPressEvent(QKeyEvent *event)
         signalCompleteCature(m_capturePixmap);
         //parentWidget()->show();
         close();
+        this->hide();
     }
 }
 

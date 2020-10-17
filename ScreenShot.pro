@@ -47,4 +47,4 @@ RESOURCES += \
     ScreenShot.qrc
 
 
-#DESTDIR = $$absolute_path($${_PRO_FILE_PWD_}/bin/)
+DESTDIR = $$absolute_path($${_PRO_FILE_PWD_}/bin/)

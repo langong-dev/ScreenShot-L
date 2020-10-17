@@ -2,6 +2,10 @@
 
 A screen shot application with QT5.
 
+## Github自动编译
+
+![Windows](https://github.com/langong-dev/ScreenShot-L/workflows/Windows/badge.svg)   ![MacOS](https://github.com/langong-dev/ScreenShot-L/workflows/MacOS/badge.svg)
+
 ## Runs on 运行于
 
 - Windows (>=Win XP)
@@ -21,7 +25,9 @@ A screen shot application with QT5.
 - 对于 Windows 用户
   1. 从[下载页面](https://github.com/langong-dev/ScreenShot-L/releases)下载 `LanGong-ScreenShot-L-*-Setup.exe`
   2. 运行它
-- 对于 Linux/MacOS 用户 （你需要先安装 Qt5 或 `qt5-base`）
+- 对于 MacOS 用户
+  下载下载页面的`ScreenShot.dmg`然后挂在运行
+- 对于 Linux 用户 （你需要先安装 Qt5 或 `qt5-base`）
   1. 克隆或下载本仓库：`git clone https://github.com/langong-dev/ScreenShot-L.git`
   2. 进入仓库：`cd ScreenShot-L`
   3. 使用 `root` 用户运行安装脚本：`bash ./install.sh`

@@ -132,7 +132,7 @@ QRect CaptureScreen::getRect(const QPoint &beginPoint, const QPoint &endPoint)
 #define STRETCH_RECT_WIDTH 6
 #define STRETCH_RECT_HEIGHT 6
 
-CaptureScreen::CaptureScreen(QWidget *parent)
+CaptureScreen::CaptureScreen(QPixmap imgin, QWidget *parent)
     : QWidget(parent)
     , m_currentCaptureState(InitCapture)
 {
@@ -141,6 +141,8 @@ CaptureScreen::CaptureScreen(QWidget *parent)
     initStretchRect();
 
     loadBackgroundPixmap();
+    m_loadPixmap = imgin;
+
     //parentWidget()->show();
 }
 
@@ -179,11 +181,11 @@ void CaptureScreen::loadBackgroundPixmap()
 //    QScreen *temp = QGuiApplication::primaryScreen();
 //    m_loadPixmap = temp->grubWindow(0);
 
-    QScreen * screen = QGuiApplication::primaryScreen();
-    QRect g = screen->geometry();
-    QPixmap pixmap = screen->grabWindow(0, g.x(), g.y(), g.width(), g.height());
+//    QScreen * screen = QGuiApplication::primaryScreen();
+//    QRect g = screen->geometry();
+//    QPixmap pixmap = screen->grabWindow(0, g.x(), g.y(), g.width(), g.height());
 
-    m_loadPixmap = pixmap;
+//    m_loadPixmap = pixmap;
     m_screenwidth = m_loadPixmap.width();
     m_screenheight = m_loadPixmap.height();
 }

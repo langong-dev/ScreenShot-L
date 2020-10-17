@@ -77,7 +77,7 @@ class CaptureScreen : public QWidget
     Q_OBJECT
 
 public:
-    CaptureScreen(QWidget *parent = 0);
+    CaptureScreen(QPixmap imgin,QWidget *parent = 0);
     ~CaptureScreen();
 
 Q_SIGNALS:

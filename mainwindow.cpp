@@ -18,6 +18,7 @@
 #include <QKeyEvent>
 #include <QShortcut>
 #include <Qt>
+#include <QScreen>
 
 
 
@@ -126,7 +127,9 @@ void MainWindow::startcap(){
     QTime _Timer = QTime::currentTime().addMSecs(750);
     while (QTime::currentTime() < _Timer)
         QCoreApplication::processEvents(QEventLoop::AllEvents, 100);
-    CaptureScreen* captureHelper = new CaptureScreen();
+    QScreen *screen = QGuiApplication::primaryScreen();
+    QPixmap map = screen->grabWindow(0);
+    CaptureScreen* captureHelper = new CaptureScreen(map);
         connect(captureHelper, SIGNAL(signalCompleteCature(QPixmap)), this, SLOT(onCompleteCature(QPixmap)));
     captureHelper->show();
     this->show();

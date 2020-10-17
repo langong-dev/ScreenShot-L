@@ -17,7 +17,7 @@ installto (){
   dir=$2
   echo ' >> Install'
   echo '    -> (0/1) Install bin to "'$bin'"'
-  cp ScreenShot "$bin/screenshotl"
+  cp ScreenShot "$bin/screenshotl" || cp bin/ScreenShot "$bin/screenshotl"
   cp -r ./* "$dir/screenshotl"
   echo '    -> (1/1) Done!'
 }

@@ -1,6 +1,7 @@
 # LanGong ScreenShot-L
 
-A screen shot application with QT5.
+- A screen shot application with QT5.
+- A cross platform application, runs on Windows and Linux (x86 or x64).
 
 ## Github自动编译
 
@@ -9,7 +10,6 @@ A screen shot application with QT5.
 ## Runs on 运行于
 
 - Windows (>=Win XP)
-- MacOS
 - Linux
 
 ## Install 安装
@@ -17,7 +17,7 @@ A screen shot application with QT5.
 - For Windows users
   1. Download `LanGong-ScreenShot-L-*-Setup.exe` from [release page](https://github.com/langong-dev/ScreenShot-L/releases)
   2. Runs setup script
-- For Linux and MacOS users (You may install qt5 or `qt5-base` first)
+- For Linux users (You may install qt5 or `qt5-base` first)
   1. Clone or download our repo: `git clone https://github.com/langong-dev/ScreenShot-L.git`
   2. Go into repo: `cd ScreenShot-L`
   3. Runs `install.sh` script with `root` user : `bash ./install.sh`
@@ -25,12 +25,14 @@ A screen shot application with QT5.
 - 对于 Windows 用户
   1. 从[下载页面](https://github.com/langong-dev/ScreenShot-L/releases)下载 `LanGong-ScreenShot-L-*-Setup.exe`
   2. 运行它
-- 对于 MacOS 用户
-  下载下载页面的`ScreenShot.dmg`然后挂在运行
 - 对于 Linux 用户 （你需要先安装 Qt5 或 `qt5-base`）
   1. 克隆或下载本仓库：`git clone https://github.com/langong-dev/ScreenShot-L.git`
   2. 进入仓库：`cd ScreenShot-L`
   3. 使用 `root` 用户运行安装脚本：`bash ./install.sh`
+
+> ### Runs on MacOS
+> 
+> ScreenShot-L 已经不能在 MacOS 计算机上运行，因为捕捉器无法捕捉mac的窗口。
 
 ## Runs 运行
 

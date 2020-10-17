@@ -5,7 +5,7 @@ echo ' LanGong ScreenShot-L Install Script'
 
 
 compile (){
-  echo ' >> Compile"
+  echo ' >> Compile'
   echo '    -> (0/1) Compile'
   qmake ScreenShot.pro
   make

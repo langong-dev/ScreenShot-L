@@ -4,6 +4,9 @@
 #include <QMainWindow>
 #include <QSystemTrayIcon>
 #include <QMenu>
+#include <QtNetwork/QNetworkAccessManager>
+#include <QtNetwork/QNetworkRequest>
+#include <QtNetwork/QNetworkReply>
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -36,8 +39,11 @@ private slots:
 
     void slotShowwindow();
 
+    void replyFinished(QNetworkReply *reply);
 
     //void on_delete_btn_clicked();
+
+    void on_getupdate_clicked();
 
 private:
     Ui::MainWindow *ui;
@@ -46,9 +52,15 @@ private:
 
     void closeEvent(QCloseEvent *event);
 
+    QNetworkAccessManager *manager;
+
+    int parse_UpdateJSON(QString str);
+
 public:
 
     void startcap();
+
+    QString Version;
 
 public:
 

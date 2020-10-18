@@ -1,4 +1,4 @@
-QT       += core gui
+QT       += core gui network
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -47,4 +47,4 @@ RESOURCES += \
     ScreenShot.qrc
 
 
-DESTDIR = $$absolute_path($${_PRO_FILE_PWD_}/bin/)
+#DESTDIR = $$absolute_path($${_PRO_FILE_PWD_}/bin/)

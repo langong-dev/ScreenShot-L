@@ -12,6 +12,7 @@
 #include <QDebug>
 #include <QMessageBox>
 
+//SystemTray
 #include <QDesktopServices>
 #include <QCloseEvent>
 #include <QHideEvent>
@@ -20,13 +21,25 @@
 #include <Qt>
 #include <QScreen>
 
+//NetWork
+#include <QtNetwork/QNetworkAccessManager>
+#include <QtNetwork/QNetworkRequest>
+#include <QtNetwork/QNetworkReply>
 
+//JSON
+#include <QJsonDocument>
+#include <QJsonObject>
+#include <QJsonArray>
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
+
+    Version = "1.2.7";
+    manager = new QNetworkAccessManager(this);
+    connect(manager, SIGNAL(finished(QNetworkReply*)), this, SLOT(replyFinished(QNetworkReply*)));
 
     /*Init Status-bar*/
     statusHead = " Status: ";
@@ -208,3 +221,73 @@ void MainWindow::on_refresh_clicked()
 //    this->ui->show->clear();
 //    nowimage=QPixmap::fromImage(this->ui->show->pixmap()->toImage());
 //}
+
+void MainWindow::on_getupdate_clicked()
+{
+//    QNetworkAccessManager *manager;
+    QNetworkRequest quest;
+    quest.setUrl(QUrl("https://langong-dev.github.com/ScreenShot-L/versions.json"));
+    quest.setHeader(QNetworkRequest::UserAgentHeader,"RT-Thread ART");
+    manager->get(quest);
+}
+
+void MainWindow::replyFinished(QNetworkReply *reply)
+{
+    QString str = reply->readAll();//读取接收到的数据
+    //    qDebug() << str;
+    parse_UpdateJSON(str);
+    reply->deleteLater();               //销毁请求对象
+}
+
+int MainWindow::parse_UpdateJSON(QString str)
+{
+    //    QMessageBox msgBox;
+    QJsonParseError err_rpt;
+    QJsonDocument  root_Doc = QJsonDocument::fromJson(str.toUtf8(),&err_rpt);//字符串格式化为JSON
+    if(err_rpt.error != QJsonParseError::NoError)
+    {
+//        qDebug() << "root格式错误";
+        QMessageBox::critical(this, "检查失败", "服务器地址错误或JSON格式错误!");
+        return -1;
+    }
+    if(root_Doc.isObject())
+    {
+        QString url;
+        QJsonObject  root_Obj = root_Doc.object();
+        QString topver = root_Obj.value("version").toString().trimmed();
+        QJsonObject PulseValue = root_Obj.value(topver).toObject();
+        QJsonObject urlObj = PulseValue.value("url").toObject();
+        int software = 0;
+#if defined (Q_OS_LINUX)
+        software = 1;
+        url = urlObj.value("linux").toString().trimmed();
+#endif
+#if defined (Q_OS_WIN)
+        software = 2;
+        url = urlObj.value("windows").toString().trimmed();
+#endif
+#if defined (Q_OS_OSX)
+        software = 3;
+        url = urlObj.value("mac").toString().trimmed();
+#endif
+        if (software == 0)
+        {
+            QMessageBox::information(this, "Error", "Cannot get your system id!");
+        }
+        QString verison = topver;
+        QString UpdateTime = PulseValue.value("updtime").toString();
+        QString ReleaseNote = PulseValue.value("new").toString();
+        if(verison > this->Version)
+        {
+            QString warningStr =  "We had got a new version!\nVersion: " + verison + "\n" + "Update time: " + UpdateTime + "\n" + "Infomation" + ReleaseNote;
+            int ret = QMessageBox::warning(this, "Get Update",  warningStr, "Update", "Miss");
+            if(ret == 0)    //点击更新
+            {
+                QDesktopServices::openUrl(QUrl(url));
+            }
+        }
+        else
+            QMessageBox::information(this, "Get Update", "This is the latest version!");
+    }
+    return 0;
+}

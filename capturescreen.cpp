@@ -178,10 +178,6 @@ void CaptureScreen::initStretchRect()
 // 获取当前屏幕图片;
 void CaptureScreen::loadBackgroundPixmap()
 {
-    //m_loadPixmap = QPixmap::grabWindow(QApplication::desktop()->winId()); //抓取当前屏幕的图片;
-//    QScreen *temp = QGuiApplication::primaryScreen();
-//    m_loadPixmap = temp->grubWindow(0);
-
     const QDesktopWidget* desktop = QApplication::desktop();
     const QPoint pos = QCursor::pos();
 

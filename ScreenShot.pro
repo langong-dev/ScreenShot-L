@@ -18,16 +18,19 @@ DEFINES += QT_DEPRECATED_WARNINGS
 SOURCES += \
     about.cpp \
     capturescreen.cpp \
+    loading.cpp \
     main.cpp \
     mainwindow.cpp
 
 HEADERS += \
     about.h \
     capturescreen.h \
+    loading.h \
     mainwindow.h
 
 FORMS += \
     about.ui \
+    loading.ui \
     mainwindow.ui
 
 # Default rules for deployment.
@@ -47,4 +50,4 @@ RESOURCES += \
     ScreenShot.qrc
 
 
-#DESTDIR = $$absolute_path($${_PRO_FILE_PWD_}/bin/)
+DESTDIR = $$absolute_path($${_PRO_FILE_PWD_}/bin/)

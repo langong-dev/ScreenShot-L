@@ -3,6 +3,7 @@
 
 #include "capturescreen.h"
 #include "about.h"
+#include "loading.h"
 
 #include <QFileDialog>
 #include <QClipboard>
@@ -224,30 +225,41 @@ void MainWindow::on_refresh_clicked()
 
 void MainWindow::on_getupdate_clicked()
 {
-//    QNetworkAccessManager *manager;
+    Stopupd = false;
+    QString requrl = "https://langong-dev.github.io/ScreenShot-L/versions.json";
+    requrl = "http://victorwoo.synology.me:670/screenshot.json";
+    Loading *videodlg = new Loading("Loading...","Fetching for updates...",this);
+    connect(videodlg,SIGNAL(sendsignal()),this,SLOT(reshow()));
+    connect(this, SIGNAL(doneupd()), videodlg, SLOT(clo()));
+    videodlg->show();//子界面出现
     QNetworkRequest quest;
-    quest.setUrl(QUrl("https://langong-dev.github.com/ScreenShot-L/versions.json"));
+    quest.setUrl(QUrl(requrl));
     quest.setHeader(QNetworkRequest::UserAgentHeader,"RT-Thread ART");
     manager->get(quest);
 }
 
+void MainWindow::reshow(){
+    Stopupd = true;
+    return;
+}
+
 void MainWindow::replyFinished(QNetworkReply *reply)
 {
-    QString str = reply->readAll();//读取接收到的数据
-    //    qDebug() << str;
+    if (Stopupd)
+        return;
+    QString str = reply->readAll();
     parse_UpdateJSON(str);
-    reply->deleteLater();               //销毁请求对象
+    reply->deleteLater();
 }
 
 int MainWindow::parse_UpdateJSON(QString str)
 {
     //    QMessageBox msgBox;
     QJsonParseError err_rpt;
-    QJsonDocument  root_Doc = QJsonDocument::fromJson(str.toUtf8(),&err_rpt);//字符串格式化为JSON
+    QJsonDocument  root_Doc = QJsonDocument::fromJson(str.toUtf8(),&err_rpt);
     if(err_rpt.error != QJsonParseError::NoError)
     {
-//        qDebug() << "root格式错误";
-        QMessageBox::critical(this, "检查失败", "服务器地址错误或JSON格式错误!");
+        QMessageBox::critical(this, "Error", "Cannot get the infomations!");
         return -1;
     }
     if(root_Doc.isObject())
@@ -277,11 +289,13 @@ int MainWindow::parse_UpdateJSON(QString str)
         QString verison = topver;
         QString UpdateTime = PulseValue.value("updtime").toString();
         QString ReleaseNote = PulseValue.value("new").toString();
+        if (Stopupd) return 1;
+        emit doneupd();
         if(verison > this->Version)
         {
-            QString warningStr =  "We had got a new version!\nVersion: " + verison + "\n" + "Update time: " + UpdateTime + "\n" + "Infomation" + ReleaseNote;
+            QString warningStr =  "We had got a new version!\nVersion: " + verison + "\n" + "Update time: " + UpdateTime + "\n" + "Infomation:\n" + ReleaseNote;
             int ret = QMessageBox::warning(this, "Get Update",  warningStr, "Update", "Miss");
-            if(ret == 0)    //点击更新
+            if(ret == 0)
             {
                 QDesktopServices::openUrl(QUrl(url));
             }

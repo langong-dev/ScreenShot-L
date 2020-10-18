@@ -3,6 +3,7 @@
         <file>icon.ico</file>
         <file>QtIcon.png</file>
         <file>LanGongIconMode.PNG</file>
+        <file>loading.gif</file>
     </qresource>
     <qresource prefix="/icons"/>
 </RCC>

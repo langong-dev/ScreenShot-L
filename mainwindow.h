@@ -45,6 +45,12 @@ private slots:
 
     void on_getupdate_clicked();
 
+    void reshow();
+
+signals:
+
+    void doneupd();
+
 private:
     Ui::MainWindow *ui;
 
@@ -55,6 +61,8 @@ private:
     QNetworkAccessManager *manager;
 
     int parse_UpdateJSON(QString str);
+
+    bool Stopupd;
 
 public:
 

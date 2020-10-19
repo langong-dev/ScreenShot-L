@@ -5,7 +5,7 @@
 #include <QMovie>
 
 Loading::Loading(QString title, QString contect, QWidget *parent) :
-    QDialog(parent),
+    QDialog(parent, Qt::WindowTitleHint | Qt::CustomizeWindowHint),
     ui(new Ui::Loading)
 {
     ui->setupUi(this);

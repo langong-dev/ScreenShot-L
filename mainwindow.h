@@ -7,6 +7,7 @@
 #include <QtNetwork/QNetworkAccessManager>
 #include <QtNetwork/QNetworkRequest>
 #include <QtNetwork/QNetworkReply>
+#include <QShortcut>
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -47,6 +48,7 @@ private slots:
 
     void reshow();
 
+
 signals:
 
     void doneupd();
@@ -63,6 +65,8 @@ private:
     int parse_UpdateJSON(QString str);
 
     bool Stopupd;
+
+    QShortcut *exitwindow;
 
 public:
 

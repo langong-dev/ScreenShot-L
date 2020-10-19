@@ -18,6 +18,8 @@ public:
 
     void closeEvent(QCloseEvent *event);
 
+private slots:
+
 private:
     Ui::About *ui;
 };

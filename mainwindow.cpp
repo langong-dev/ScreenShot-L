@@ -12,6 +12,7 @@
 #include <QTime>
 #include <QDebug>
 #include <QMessageBox>
+#include <QShortcut>
 
 //SystemTray
 #include <QDesktopServices>
@@ -38,7 +39,7 @@ MainWindow::MainWindow(QWidget *parent)
 {
     ui->setupUi(this);
 
-    Version = "1.2.8";
+    Version = "1.2.9";
     manager = new QNetworkAccessManager(this);
     connect(manager, SIGNAL(finished(QNetworkReply*)), this, SLOT(replyFinished(QNetworkReply*)));
 
@@ -82,6 +83,9 @@ MainWindow::MainWindow(QWidget *parent)
     {
         QMessageBox::information(NULL, "ScreenShot-L", "ScreenShot-L's system tray started error!");
     }
+
+    exitwindow = new QShortcut(QKeySequence(tr("ctrl+q")), this);
+    connect(exitwindow, SIGNAL(activated()), this, SLOT(slotActionExitApp()));
 }
 
 void MainWindow::slotActionExitApp()
@@ -95,13 +99,10 @@ void MainWindow::on_activatedSysTrayIcon(QSystemTrayIcon::ActivationReason reaso
     switch (reason)
     {
         case QSystemTrayIcon::Trigger:
-            this->show();
+            startcap();
             break;
         case QSystemTrayIcon::DoubleClick:
-            //双击托盘图标
-            //双击后显示主程序窗口
             this->show();
-//            systemTrayIcon->hide();
             break;
         default:
             break;
@@ -225,6 +226,7 @@ void MainWindow::on_refresh_clicked()
 
 void MainWindow::on_getupdate_clicked()
 {
+    this->ui->status->setText(statusHead + "Getting updates");
     Stopupd = false;
     QString requrl = "https://langong-dev.github.io/ScreenShot-L/versions.json";
     requrl = "http://victorwoo.synology.me:670/screenshot.json";
@@ -240,13 +242,15 @@ void MainWindow::on_getupdate_clicked()
 
 void MainWindow::reshow(){
     Stopupd = true;
+    this->ui->status->setText(statusHead+"Ready");
     return;
 }
 
 void MainWindow::replyFinished(QNetworkReply *reply)
 {
-    if (Stopupd)
+    if (Stopupd){
         return;
+    }
     QString str = reply->readAll();
     parse_UpdateJSON(str);
     reply->deleteLater();
@@ -300,8 +304,11 @@ int MainWindow::parse_UpdateJSON(QString str)
                 QDesktopServices::openUrl(QUrl(url));
             }
         }
-        else
-            QMessageBox::information(this, "Get Update", "This is the latest version!");
+        else{
+            QString str = "This is the latest version!\nYour version: ScreenShot-L@"+Version;
+            QMessageBox::information(this, "Get Update", str);
+        }
     }
+    this->ui->status->setText(statusHead+"Ready");
     return 0;
 }

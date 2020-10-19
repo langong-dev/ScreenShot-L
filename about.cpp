@@ -18,3 +18,4 @@ void About::closeEvent(QCloseEvent *event)
     this->hide();
     event->ignore();
 }
+

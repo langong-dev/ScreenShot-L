@@ -33,6 +33,8 @@
 #include <QJsonObject>
 #include <QJsonArray>
 
+#include "qhotkey.h"
+
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
@@ -56,6 +58,13 @@ MainWindow::MainWindow(QWidget *parent)
     QAction *menucapture = new QAction("Capture", &menu);
     QAction *gethelp = new QAction("Help / About");
     QAction *exitapp = new QAction("Quit");
+
+    auto startcap_hotkey = new QHotkey(QKeySequence("alt+f1"), true, this);//The hotkey will be automatically registered
+
+    QObject::connect(startcap_hotkey, &QHotkey::activated, this, [&](){
+        this->startcap();
+    });
+
 
     showwindow->setIcon(QIcon(":/SystemTray/LanGongIconMode.PNG"));
 

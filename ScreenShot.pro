@@ -49,5 +49,6 @@ RC_ICON = icon.ico
 RESOURCES += \
     ScreenShot.qrc
 
+include(QHotkey/QHotkey.pri)
 
 DESTDIR = $$absolute_path($${_PRO_FILE_PWD_}/bin/)

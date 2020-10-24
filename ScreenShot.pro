@@ -50,6 +50,6 @@ RC_FILE = ScreenShot.rc
 RESOURCES += \
     ScreenShot.qrc
 
-include(QHotkey/QHotkey.pri)
+include(QHotkey/qhotkey.pri)
 
 DESTDIR = $$absolute_path($${_PRO_FILE_PWD_}/bin/)

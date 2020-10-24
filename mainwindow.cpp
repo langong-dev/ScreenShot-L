@@ -33,7 +33,7 @@
 #include <QJsonObject>
 #include <QJsonArray>
 
-#include "qhotkey.h"
+#include <qhotkey.h>
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -41,8 +41,8 @@ MainWindow::MainWindow(QWidget *parent)
 {
     ui->setupUi(this);
 
-    Version = "1.3.0";
-    tv1 = 1, tv2 = 3, tv3 = 0;
+    Version = "1.3.1";
+    tv1 = 1, tv2 = 3, tv3 = 1;
 
     manager = new QNetworkAccessManager(this);
     connect(manager, SIGNAL(finished(QNetworkReply*)), this, SLOT(replyFinished(QNetworkReply*)));
@@ -61,9 +61,13 @@ MainWindow::MainWindow(QWidget *parent)
     QAction *gethelp = new QAction("Help / About");
     QAction *exitapp = new QAction("Quit");
 
-    auto startcap_hotkey = new QHotkey(QKeySequence("ctrl+alt+p"), true, this);//The hotkey will be automatically registered
+    auto startcap_hotkey = new QHotkey(QKeySequence("ctrl+shift+p"), true, this);//The hotkey will be automatically registered
+    auto startcap_hotkey2 = new QHotkey(QKeySequence("ctrl+alt+p"), true, this);
 
     QObject::connect(startcap_hotkey, &QHotkey::activated, this, [&](){
+        this->startcap();
+    });
+    QObject::connect(startcap_hotkey2, &QHotkey::activated, this, [&](){
         this->startcap();
     });
 

@@ -4,7 +4,7 @@
 - A **cross platform** application, runs on Windows and Linux (x86 or x64).
 - **Just** press `Ctrl-Alt-P` to start captures.
 
-![GitHub release (latest by date including pre-releases)](https://img.shields.io/github/v/release/langong-dev/ScreenShot-L?include_prereleases)    ![GitHub](https://img.shields.io/github/license/langong-dev/ScreenShot-L)    ![Windows](https://github.com/langong-dev/ScreenShot-L/workflows/Windows/badge.svg)   ![MacOS](https://github.com/langong-dev/ScreenShot-L/workflows/MacOS/badge.svg)
+![GitHub release](https://img.shields.io/github/v/release/langong-dev/ScreenShot-L?include_prereleases)    ![GitHub](https://img.shields.io/github/license/langong-dev/ScreenShot-L)    ![Windows](https://github.com/langong-dev/ScreenShot-L/workflows/Windows/badge.svg)   ![MacOS](https://github.com/langong-dev/ScreenShot-L/workflows/MacOS/badge.svg)
 
 ## Runs on 运行于
 

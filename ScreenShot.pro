@@ -44,7 +44,8 @@ DISTFILES += \
     ScreenShotIcon.png \
     icon.ico
 
-RC_ICON = icon.ico
+#RC_ICON = "LanGongIconMode.ico"
+RC_FILE = ScreenShot.rc
 
 RESOURCES += \
     ScreenShot.qrc

@@ -64,6 +64,9 @@ MainWindow::MainWindow(QWidget *parent)
     auto startcap_hotkey = new QHotkey(QKeySequence("ctrl+shift+p"), true, this);//The hotkey will be automatically registered
     auto startcap_hotkey2 = new QHotkey(QKeySequence("ctrl+alt+p"), true, this);
 
+    if (!startcap_hotkey->isRegistered())
+        QMessageBox::warning(NULL, "Error", "Hotkey (shortcut) 'ctrl+shift+p' is not available!\nYou can use 'ctrl+alt+p'");
+
     QObject::connect(startcap_hotkey, &QHotkey::activated, this, [&](){
         this->startcap();
     });

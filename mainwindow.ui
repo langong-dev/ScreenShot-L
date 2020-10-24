@@ -32,10 +32,7 @@
     <item row="3" column="0" colspan="2">
      <widget class="QPushButton" name="start">
       <property name="text">
-       <string>Capture (Ctrl-R)</string>
-      </property>
-      <property name="shortcut">
-       <string>Ctrl+R</string>
+       <string>Capture (Ctrl-Alt-P)</string>
       </property>
      </widget>
     </item>

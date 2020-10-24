@@ -41,7 +41,9 @@ MainWindow::MainWindow(QWidget *parent)
 {
     ui->setupUi(this);
 
-    Version = "1.2.9";
+    Version = "1.3.0";
+    tv1 = 1, tv2 = 3, tv3 = 0;
+
     manager = new QNetworkAccessManager(this);
     connect(manager, SIGNAL(finished(QNetworkReply*)), this, SLOT(replyFinished(QNetworkReply*)));
 
@@ -59,7 +61,7 @@ MainWindow::MainWindow(QWidget *parent)
     QAction *gethelp = new QAction("Help / About");
     QAction *exitapp = new QAction("Quit");
 
-    auto startcap_hotkey = new QHotkey(QKeySequence("alt+f1"), true, this);//The hotkey will be automatically registered
+    auto startcap_hotkey = new QHotkey(QKeySequence("ctrl+alt+p"), true, this);//The hotkey will be automatically registered
 
     QObject::connect(startcap_hotkey, &QHotkey::activated, this, [&](){
         this->startcap();
@@ -267,12 +269,12 @@ void MainWindow::replyFinished(QNetworkReply *reply)
 
 int MainWindow::parse_UpdateJSON(QString str)
 {
-    //    QMessageBox msgBox;
     QJsonParseError err_rpt;
     QJsonDocument  root_Doc = QJsonDocument::fromJson(str.toUtf8(),&err_rpt);
     if(err_rpt.error != QJsonParseError::NoError)
     {
         QMessageBox::critical(this, "Error", "Cannot get the infomations!");
+        emit doneupd();
         return -1;
     }
     if(root_Doc.isObject())
@@ -281,6 +283,9 @@ int MainWindow::parse_UpdateJSON(QString str)
         QJsonObject  root_Obj = root_Doc.object();
         QString topver = root_Obj.value("version").toString().trimmed();
         QJsonObject PulseValue = root_Obj.value(topver).toObject();
+        int v1 = PulseValue.value("v1").toInt();
+        int v2 = PulseValue.value("v2").toInt();
+        int v3 = PulseValue.value("v3").toInt();
         QJsonObject urlObj = PulseValue.value("url").toObject();
         int software = 0;
 #if defined (Q_OS_LINUX)
@@ -304,7 +309,26 @@ int MainWindow::parse_UpdateJSON(QString str)
         QString ReleaseNote = PulseValue.value("new").toString();
         if (Stopupd) return 1;
         emit doneupd();
-        if(verison > this->Version)
+        bool upd = false;
+        if (v1>tv1)
+        {
+            upd = true;
+        }
+        else if (v1 == tv1)
+        {
+            if (v2>tv2)
+            {
+                upd = true;
+            }
+            else if (v2 == tv2)
+            {
+                if (v3 > tv3)
+                {
+                    upd = true;
+                }
+            }
+        }
+        if(upd)
         {
             QString warningStr =  "We had got a new version!\nVersion: " + verison + "\n" + "Update time: " + UpdateTime + "\n" + "Infomation:\n" + ReleaseNote;
             int ret = QMessageBox::warning(this, "Get Update",  warningStr, "Update", "Miss");

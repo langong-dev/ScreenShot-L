@@ -1,7 +1,8 @@
 # LanGong ScreenShot-L
 
 - A screen shot application with QT5.
-- A cross platform application, runs on Windows and Linux (x86 or x64).
+- A **cross platform** application, runs on Windows and Linux (x86 or x64).
+- **Just** press `Ctrl-Alt-P` to start captures.
 
 ## Github自动编译
 

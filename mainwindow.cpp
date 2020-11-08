@@ -4,6 +4,8 @@
 #include "capturescreen.h"
 #include "about.h"
 #include "loading.h"
+//#include "drawwidget.h"
+#include "draw.h"
 
 #include <QFileDialog>
 #include <QClipboard>
@@ -41,8 +43,8 @@ MainWindow::MainWindow(QWidget *parent)
 {
     ui->setupUi(this);
 
-    Version = "1.3.1";
-    tv1 = 1, tv2 = 3, tv3 = 1;
+    Version = "1.4.0";
+    tv1 = 1, tv2 = 4, tv3 = 0;
 
     manager = new QNetworkAccessManager(this);
     connect(manager, SIGNAL(finished(QNetworkReply*)), this, SLOT(replyFinished(QNetworkReply*)));
@@ -177,12 +179,34 @@ void MainWindow::onCompleteCature(QPixmap captureImage)
 {
 //    this->ui>show->setPixmap(captureImage);
 //    this->setFixedSize(100,100);
-    this->show();
+//    this->show();
 //    int nowwidth=this->ui->show->width()/2;
 //    QSize picsize(nowwidth, this->ui->show->heightForWidth(nowwidth));
 //    captureImage.scaled(this->size(), Qt::KeepAspectRatio);
 //    captureImage.scaled(picsize, Qt::KeepAspectRatio);
     //ui->show->setScaledContents(true);
+
+    /*
+    DrawWidget *drawWidget =new DrawWidget(this);   //创建一个新的修改界面呢文件
+    //把这个设置为控件的中心窗体
+    this->setCentralWidget(drawWidget);
+
+    //创建一个工具栏
+    createToolBar();    //创建一个工具栏
+
+    //设置主窗体初始最小大小
+    setMinimumSize(600, 400);
+
+    ShowStyle();    //显示选择的风格,初始化风格，设置控件中的当前值作为选项
+    drawWidget->setWidth(widthSpinBox->value());    //初始化画笔宽度
+    drawWidget->setColor(Qt::black);    //初始画笔为黑色
+    */
+
+//    this->hide();
+    QPixmap cp = captureImage;
+    Draw *dw = new Draw(cp, this);
+    connect (dw, SIGNAL(oksig(QPixmap)), this, SLOT(doneedit(QPixmap)));
+    dw->show();
 
     this->ui->status->setText(statusHead+"Ready");
     nowimage=captureImage;
@@ -190,6 +214,12 @@ void MainWindow::onCompleteCature(QPixmap captureImage)
     putimg(nowimage);
 //    this->ui->path->setText(path);
 
+}
+
+void MainWindow::doneedit(QPixmap px)
+{
+    nowimage = px;
+    putimg(px);
 }
 
 void MainWindow::putimg(QPixmap img)

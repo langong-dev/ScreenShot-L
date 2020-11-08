@@ -15,9 +15,18 @@ DEFINES += QT_DEPRECATED_WARNINGS
 # You can also select to disable deprecated APIs only up to a certain version of Qt.
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
+RC_ICON = "LanGongIconMode.ico"
+VERSION = 1.4.0
+QMAKE_TARGET_COMPANY = "LanGong Development Team"
+QMAKE_TARGET_PRODUCT = "ScreenShot-L"
+QMAKE_TARGET_DESCRIPTION = "ScreenShot Application made with Qt5"
+QMAKE_TARGET_COPYRIGHT = "Copyright 2020 LanGong"
+
 SOURCES += \
     about.cpp \
     capturescreen.cpp \
+    draw.cpp \
+    drawwidget.cpp \
     loading.cpp \
     main.cpp \
     mainwindow.cpp
@@ -25,6 +34,8 @@ SOURCES += \
 HEADERS += \
     about.h \
     capturescreen.h \
+    draw.h \
+    drawwidget.h \
     loading.h \
     mainwindow.h
 
@@ -44,8 +55,8 @@ DISTFILES += \
     ScreenShotIcon.png \
     icon.ico
 
-#RC_ICON = "LanGongIconMode.ico"
 RC_FILE = ScreenShot.rc
+
 
 RESOURCES += \
     ScreenShot.qrc

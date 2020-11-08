@@ -1,6 +1,8 @@
 #include "about.h"
 #include "ui_about.h"
 
+#include <QApplication>
+
 About::About(QWidget *parent) :
     QDialog(parent),
     ui(new Ui::About)
@@ -19,3 +21,8 @@ void About::closeEvent(QCloseEvent *event)
     event->ignore();
 }
 
+
+void About::on_aboutqt_clicked()
+{
+    qApp->aboutQt();
+}

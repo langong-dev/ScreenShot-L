@@ -20,6 +20,8 @@ public:
 
 private slots:
 
+    void on_aboutqt_clicked();
+
 private:
     Ui::About *ui;
 };

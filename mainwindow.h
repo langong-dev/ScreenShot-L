@@ -48,6 +48,8 @@ private slots:
 
     void reshow();
 
+    void doneedit(QPixmap px);
+
 
 signals:
 

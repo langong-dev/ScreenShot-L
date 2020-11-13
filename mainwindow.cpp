@@ -43,8 +43,8 @@ MainWindow::MainWindow(QWidget *parent)
 {
     ui->setupUi(this);
 
-    Version = "1.4.0";
-    tv1 = 1, tv2 = 4, tv3 = 0;
+    Version = "1.3.2";
+    tv1 = 1, tv2 = 3, tv3 = 2;
 
     manager = new QNetworkAccessManager(this);
     connect(manager, SIGNAL(finished(QNetworkReply*)), this, SLOT(replyFinished(QNetworkReply*)));
@@ -203,10 +203,10 @@ void MainWindow::onCompleteCature(QPixmap captureImage)
     */
 
 //    this->hide();
-    QPixmap cp = captureImage;
-    Draw *dw = new Draw(cp, this);
-    connect (dw, SIGNAL(oksig(QPixmap)), this, SLOT(doneedit(QPixmap)));
-    dw->show();
+//    QPixmap cp = captureImage;
+//    Draw *dw = new Draw(cp, this);
+//    connect (dw, SIGNAL(oksig(QPixmap)), this, SLOT(doneedit(QPixmap)));
+//    dw->show();
 
     this->ui->status->setText(statusHead+"Ready");
     nowimage=captureImage;

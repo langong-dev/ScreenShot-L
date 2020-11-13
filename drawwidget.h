@@ -17,6 +17,8 @@ public:
     QPoint startPos;
     QPixmap *pix;
     double ox, oy, r, rw, rh;
+    double px, py;
+    int ifx, ify;
 
 private:
     void mousePressEvent(QMouseEvent *event);

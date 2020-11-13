@@ -8,6 +8,7 @@
 #include <QResizeEvent>
 #include <QPalette>
 #include <QMessageBox>
+#include <QDebug>
 #include <QSize>
 
 DrawWidget::DrawWidget(QPixmap *set,QWidget *parent) : QWidget(parent)
@@ -51,7 +52,9 @@ void DrawWidget::mousePressEvent(QMouseEvent *e)
 {
     //记录第一次点击的鼠标的起始坐标
 //    startPos = e->pos();
-    QPoint n(e->pos().x()/rw, e->pos().y()/rh);
+    qDebug() << e->pos().x()/rw << " " << e->pos().y()/rh << " " << px / rw;
+    QPoint n((e->pos().x()/2/rw - px), e->pos().y()/rh/py);
+    qDebug() << n.x() << " " << n.y();
 
     startPos = n;
 }
@@ -61,7 +64,7 @@ void DrawWidget::mouseMoveEvent(QMouseEvent *e)
 {
     //首先得到绘画的工具
     QPainter *painter = new QPainter;
-    QPoint n(e->pos().x()/rw, e->pos().y()/rh);
+    QPoint n((e->pos().x()/2/rw - px), e->pos().y()/rh/py);
 
     //设置好画笔的风格
     QPen pen;
@@ -82,19 +85,29 @@ void DrawWidget::mouseMoveEvent(QMouseEvent *e)
 //在调用paintEven之前，Qt会清除掉相应空间的内容,上面的update会调用paintEvent事件
 void DrawWidget::paintEvent(QPaintEvent *)
 {
-    int ww = width();
-    int wh = height();
-    int iw = pix->width();
-    int ih = pix->height();
+    double ww = width();
+    double wh = height();
+    double iw = pix->width();
+    double ih = pix->height();
     rw = 1.0 * ww / iw;
     rh = 1.0 * wh / ih;
     r = qMin(rw, rh);
     ox = (ww - r * iw) / 2;
     oy = (wh - r * ih) / 2;
+    if (ww - iw > 0)
+    {
+        px = 1.0 * ox;
+        py = 1;
+//        px = 0, py = ((wh - ih) / 2);
+    }
+    else
+    {
+        px = py = rh;
+        qDebug() << ww << " " << iw;
+    }
     QPainter painter(this);   //得到当前控件绘制工具
     painter.translate(ox, oy);
     painter.scale(r,r);
-    QPixmap t = pix->scaled(size(), Qt::KeepAspectRatio, Qt::SmoothTransformation);
     painter.drawPixmap(QPoint(0, 0), *pix);     //重0,0开始绘制这个图片
 //    setMinimumSize(pix->size());
 }
@@ -109,27 +122,30 @@ void DrawWidget::cleari()
 
 void DrawWidget::resizeEvent(QResizeEvent *event)
 {
-    if(height() > pix->height() || width() > pix->width())    //只要控件的区域比画布还要大，那么我们就改到一样大
+    QWidget::resizeEvent(event);    //完成其余默认的工作
+//    if(height() > pix->height() || width() > pix->width())    //只要控件的区域比画布还要大，那么我们就改到一样大
     {
-        int ww = width();
-        int wh = height();
-        int iw = pix->width();
-        int ih = pix->height();
-        rw = 1.0 * ww / iw;
-        rh = 1.0 * wh / ih;
-        r = qMin(rw, rh);
-        ox = (ww - r * iw) / 2;
-        oy = (wh - r * ih) / 2;
-        QPixmap *newPix = new QPixmap(size());    //设置一个新的画布，大小和控件一样大
+//        int ww = width();
+//        int wh = height();
+//        int iw = pix->width();
+//        int ih = pix->height();
+//        rw = 1.0 * ww / iw;
+//        rh = 1.0 * wh / ih;
+//        r = qMin(rw, rh);
+//        ox = (ww - r * iw) / 2;
+//        oy = (wh - r * ih) / 2;
+//        QPixmap *newPix = new QPixmap(size());    //设置一个新的画布，大小和控件一样大
         //同样先把背景设置为白色
-        newPix->fill(Qt::white);
+//        newPix->fill(Qt::white);
+//        QPixmap *newPix = new QPixmap();
         //设置完了，赋值到原来的地方之前，我们先前的画不能消失，所以早替换新画布之前要保留前面的画
-        QPainter p(newPix);   //在新画布上进行操作
+        QPainter p(this);   //在新画布上进行操作
         p.translate(ox, oy);
         p.scale(r,r);
         p.drawPixmap(QPoint(0, 0), *pix);    //把原来的画画上去
-        pix = newPix;
+        qDebug() << "Y";
+//        pix = newPix;
 //        pix = new QPixmap (newPix->scaled(size(), Qt::KeepAspectRatio, Qt::SmoothTransformation));
     }
-    QWidget::resizeEvent(event);    //完成其余默认的工作
+
 }
